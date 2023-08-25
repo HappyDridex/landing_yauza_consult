@@ -1,0 +1,34 @@
+<template>
+    <svg
+        width="40"
+        height="21"
+        viewBox="0 0 40 21"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path
+            d="M39 1L0.999999 1"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+        />
+        <line
+            x1="39"
+            y1="11"
+            x2="1"
+            y2="11"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+        />
+        <line
+            x1="39"
+            y1="20"
+            x2="1"
+            y2="20"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+        />
+    </svg>
+</template>

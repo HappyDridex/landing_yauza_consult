@@ -1,0 +1,28 @@
+@mixin white-gradient($width, $height, $translateYPercent) {
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    transform: translateY($translateYPercent);
+    width: calc($width * 2);
+    height: $height;
+    background: linear-gradient(
+        360deg,
+        #fff 0%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+@mixin action-button {
+    width: max-content;
+    padding: 17px 48px;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: 500;
+    border: 2px solid $black-muted;
+    @media (max-width: $breakpoint1) {
+        padding: 13px 38px;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+}

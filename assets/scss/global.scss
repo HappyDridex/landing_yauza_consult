@@ -11,6 +11,10 @@
     color: inherit;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
 }
@@ -58,6 +62,7 @@ address {
     font-size: inherit;
     font-weight: inherit;
     font-family: $body-font;
+    font-style: normal;
     color: $black;
     line-height: normal;
     font-weight: 400;
@@ -72,6 +77,14 @@ img {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1240px;
     margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    @media (max-width: $breakpoint1) {
+        max-width: 880px;
+    }
+    @media (max-width: $breakpoint2) {
+        max-width: 622px;
+    }
 }
