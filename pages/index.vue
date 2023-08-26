@@ -35,7 +35,7 @@
         <section class="support container">
             <div class="support-info">
                 <h1 class="support-title index-section-title">
-                    Сопровождение Ваших дел
+                    Сопровождение бизнес процессор
                 </h1>
                 <p class="support-description">
                     Предоставляем широкий спектр услуг: бухгалтерское, кадровое
@@ -109,8 +109,9 @@
             id="prices">
             <h2 class="prices-title index-section-title">Цены</h2>
             <swiper class="prices-articles"
-                :slides-per-view="'auto'"
+                :slides-per-view="windowWidth < 768 ? 1 : 'auto'"
                 :space-between="33">
+                <UiSwiperButtons class="prices__swiper-buttons" />
                 <swiper-slide style="width: fit-content; height: auto"
                     v-for="priceItem in pricesList"
                     :key="priceItem.title">
@@ -250,10 +251,10 @@ const pricesList = [
     {
         title: "Бухгалтерские услуги",
         services: [
-            "Бухгалтерский и налоговый учет, систематизация и учет документов.",
+            "Бухгалтерский и налоговый учет, систематизация и учет документов",
             "Проверка документов на соответствие закону",
             "Формирование первичных учетных и налоговых документов",
-            "Оформление кассовых операций и контроль за дисциплиной.",
+            "Оформление кассовых операций и контроль за дисциплиной",
         ],
         price: "Цена договорная",
     },
@@ -277,6 +278,26 @@ const pricesList = [
         ],
         price: "Цена договорная",
     },
+    {
+        title: "Аудиторские услуги",
+        services: [
+            "Устная консультация по телефону",
+            "Письменная простая консультация",
+            "Письменная сложная консультация (по согласованию)",
+            "Подготовка учетной политики",
+        ],
+        price: "Цена договорная",
+    },
+    {
+        title: "Охрана труда",
+        services: [
+            "Создание или оптимизация существующей системы управления охраной труда (СУОТ)",
+            "Создание документов по охране труда",
+            "Помощь в вопросах охраны труда через консультации",
+            "Представитель защитит ваши интересы при проверке ГИТ",
+        ],
+        price: "Цена договорная",
+    },
 ];
 
 const documentCards = [
@@ -294,39 +315,32 @@ onMounted(() => {
     ymaps.ready(init);
 
     function init() {
-        //@ts-ignore
         const myMap = new ymaps.Map("map", {
             center: [55.750408, 37.644926],
             zoom: 17,
             controls: ["routePanelControl"],
         });
 
-        var control = myMap.controls.get("routePanelControl");
+        const control = myMap.controls.get("routePanelControl");
 
         control.routePanel.state.set({
-            // Тип маршрутизации.
             type: "masstransit",
-            // Выключим возможность задавать пункт отправления в поле ввода.
             fromEnabled: true,
-            // Адрес или координаты пункта отправления.
             from: "",
-            // Включим возможность задавать пункт назначения в поле ввода.
             toEnabled: true,
-            // Адрес или координаты пункта назначения.
             to: [55.750408, 37.644926],
         });
 
-        // Зададим опции панели для построения машрутов.
         control.routePanel.options.set({
-            // Запрещаем показ кнопки, позволяющей менять местами начальную и конечную точки маршрута.
             allowSwitch: false,
-            // Включим определение адреса по координатам клика.
-            // Адрес будет автоматически подставляться в поле ввода на панели, а также в подпись метки маршрута.
             reverseGeocoding: true,
-            // Зададим виды маршрутизации, которые будут доступны пользователям для выбора.
             types: { masstransit: true, pedestrian: true, taxi: true },
         });
     }
+});
+
+const windowWidth = computed(() => {
+    return window.innerWidth;
 });
 </script>
 
@@ -789,7 +803,7 @@ onMounted(() => {
 
         .contacts__content {
             display: grid;
-            grid-template-columns: 0.9fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 50px;
 
             @media (max-width: $breakpoint1) {
@@ -860,16 +874,33 @@ onMounted(() => {
         }
 
         .documents-title {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .documents__cards {
             margin: 0 auto;
+            display: flex;
+            flex-direction: column-reverse;
             width: fit-content;
 
             @media (max-width: $breakpoint1) {
-                margin-top: 65px;
                 width: auto;
+            }
+
+            @media (max-width: $breakpoint2) {
+                width: 367px;
+            }
+
+            .documents__swiper-buttons {
+                display: none;
+                align-self: flex-end;
+                margin-bottom: 14px;
+
+                @media (max-width: $breakpoint1) {
+                    display: flex;
+                    margin-bottom: 30px;
+                    align-self: center;
+                }
             }
 
             .documents__card {
@@ -987,5 +1018,4 @@ onMounted(() => {
             }
         }
     }
-}
-</style>
+}</style>
