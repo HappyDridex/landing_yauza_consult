@@ -5,16 +5,14 @@
                 <div class="header-left">
                     <div class="header-logo">Логотип</div>
                     <nav class="header-nav">
-                        <a href="#about" class="footer__navbar-link"
-                            >О компании</a
-                        >
-                        <a href="#services" class="footer__navbar-link"
-                            >Наши услуги</a
-                        >
-                        <a href="#prices" class="footer__navbar-link">Цены</a>
-                        <a href="#contacts" class="footer__navbar-link"
-                            >Контакты</a
-                        >
+                        <a href="#about"
+                            class="footer__navbar-link">О компании</a>
+                        <a href="#services"
+                            class="footer__navbar-link">Наши услуги</a>
+                        <a href="#prices"
+                            class="footer__navbar-link">Цены</a>
+                        <a href="#contacts"
+                            class="footer__navbar-link">Контакты</a>
                     </nav>
                 </div>
                 <div class="header-phone">
@@ -22,18 +20,14 @@
                     <a href="tel:+79000000000">+7 999 999 99 99</a>
                 </div>
 
-                <button
-                    class="header__burger-button"
-                    @click="showSidebar = true"
-                >
+                <button class="header__burger-button"
+                    @click="showSidebar = true">
                     <IconsBurgerMenu />
                 </button>
 
                 <Teleport to="body">
-                    <TheSidebar
-                        v-if="showSidebar"
-                        @close="showSidebar = false"
-                    />
+                    <TheSidebar v-if="showSidebar"
+                        @close="showSidebar = false" />
                 </Teleport>
             </div>
         </header>
@@ -49,21 +43,23 @@
                     охраны труда
                 </p>
             </div>
-            <UiButtonMain
+            <UiButtonMain @click="about.scrollIntoView()"
                 class="support-details-button"
-                :button-text="'Подробнее'"
-            />
+                :button-text="'Подробнее'" />
             <div class="support-illustration">
                 <img src="/images/coins-in-safe.png" />
                 <div class="support-image-white-gradient"></div>
             </div>
         </section>
 
-        <section class="about container" id="about">
+        <section class="about container"
+            id="about"
+            ref="about">
             <h2 class="about-title index-section-title">О компании</h2>
             <div class="about-content">
                 <div class="about-content__image">
-                    <img src="/images/rings-around-box.png" alt="Иллюстрация" />
+                    <img src="/images/rings-around-box.png"
+                        alt="Иллюстрация" />
                 </div>
 
                 <ol class="about-content__list">
@@ -91,36 +87,33 @@
             </div>
         </section>
 
-        <section class="services container" id="services">
+        <section class="services container"
+            id="services">
             <h2 class="services-title index-section-title">Наши услуги</h2>
             <div class="services__image">
-                <img src="/images/balls-on-ring.png" alt="Иллюстрация" />
+                <img src="/images/balls-on-ring.png"
+                    alt="Иллюстрация" />
                 <div class="services-image-gradient"></div>
             </div>
             <ul class="services-cards">
-                <li
-                    class="services-card"
+                <li class="services-card"
                     v-for="(service, idx) in servicesList"
-                    :key="service"
-                >
+                    :key="service">
                     <span class="services-card-numeration">{{ idx + 1 }}</span>
                     <p class="services-card-description">{{ service }}</p>
                 </li>
             </ul>
         </section>
 
-        <section class="prices container" id="prices">
+        <section class="prices container"
+            id="prices">
             <h2 class="prices-title index-section-title">Цены</h2>
-            <swiper
-                class="prices-articles"
+            <swiper class="prices-articles"
                 :slides-per-view="'auto'"
-                :space-between="33"
-            >
-                <swiper-slide
-                    style="width: fit-content; height: auto"
+                :space-between="33">
+                <swiper-slide style="width: fit-content; height: auto"
                     v-for="priceItem in pricesList"
-                    :key="priceItem.title"
-                >
+                    :key="priceItem.title">
                     <article class="prices-article">
                         <header class="prices-article__header">
                             <h4 class="prices-article__header-title">
@@ -128,11 +121,9 @@
                             </h4>
                         </header>
                         <ul class="prices-article__list">
-                            <li
-                                class="prices-article__list-item"
+                            <li class="prices-article__list-item"
                                 v-for="service in priceItem.services"
-                                :key="service"
-                            >
+                                :key="service">
                                 <div class="prices-article__list-item-icon">
                                     <IconsTickRoundedBg />
                                 </div>
@@ -152,7 +143,8 @@
             </swiper>
         </section>
 
-        <section class="contacts container" id="contacts">
+        <section class="contacts container"
+            id="contacts">
             <h2 class="contacts-title index-section-title">Контакты</h2>
             <address class="contacts__content">
                 <ul class="contacts__list">
@@ -184,23 +176,20 @@
                     </li>
                 </ul>
                 <div class="contacts__map">
-                    <div id="map" class="contacts__map-item"></div>
+                    <div id="map"
+                        class="contacts__map-item"></div>
                 </div>
             </address>
         </section>
 
         <section class="documents container">
             <h2 class="documents-title index-section-title">Документы</h2>
-            <swiper
-                class="documents__cards"
+            <swiper class="documents__cards"
                 :slides-per-view="'auto'"
-                :space-between="33"
-            >
-                <swiper-slide
-                    style="width: fit-content; height: auto"
+                :space-between="33">
+                <swiper-slide style="width: fit-content; height: auto"
                     v-for="(card, idx) in documentCards"
-                    :key="idx"
-                >
+                    :key="idx">
                     <article class="documents__card">
                         <IconsCVCardFilled />
                         <p class="documents__card-text">
@@ -218,12 +207,14 @@
             <div class="footer-content container">
                 <div class="footer__logo">Логотип</div>
                 <nav class="footer__navbar">
-                    <a href="#about" class="footer__navbar-link">О компании</a>
-                    <a href="#services" class="footer__navbar-link"
-                        >Наши услуги</a
-                    >
-                    <a href="#prices" class="footer__navbar-link">Цены</a>
-                    <a href="#contacts" class="footer__navbar-link">Контакты</a>
+                    <a href="#about"
+                        class="footer__navbar-link">О компании</a>
+                    <a href="#services"
+                        class="footer__navbar-link">Наши услуги</a>
+                    <a href="#prices"
+                        class="footer__navbar-link">Цены</a>
+                    <a href="#contacts"
+                        class="footer__navbar-link">Контакты</a>
                 </nav>
                 <address class="footer-address">
                     <p class="footer-address__company">
@@ -252,6 +243,8 @@ const servicesList = [
     "Аудиторские услуги",
     "Услуги в обоасти охраны труда",
 ];
+
+const about = ref(null);
 
 const pricesList = [
     {
@@ -288,11 +281,11 @@ const pricesList = [
 
 const documentCards = [
     {
-        text: "Об утверждении Положения о системе хранения и архивирования документов,оформляемых при осуществлении функций службы охраны труда, специалистов охраны труда организаций, которым оказываются услуги в области охраны труда по гражданско -правовым договорам",
+        text: "Об утверждении Положения о системе хранения и архивирования документов, оформляемых при осуществлении функции службы охраны труда, специалистов охраны труда организаций, которым оказываются услуги в области охраны труда по гражданско - правовым договорам",
         link: "",
     },
     {
-        text: "Об утверждении Положения о системе хранения и архивирования документов,оформляемых при осуществлении функций службы охраны труда, специалистов охраны труда организаций, которым оказываются услуги в области охраны труда по гражданско -правовым договорам",
+        text: "Положение о системе хранения и архивирования документов, оформляемых при осуществлении функций службы охраны труда, специалистов охраны труда организаций, которым оказываются услуги в области охраны труда по гражданско-правовым договорам",
         link: "",
     },
 ];
@@ -346,9 +339,11 @@ onMounted(() => {
         width: fit-content;
         margin: 0 auto;
         text-align: center;
+
         @media (max-width: $breakpoint1) {
             font-size: 33px;
         }
+
         @media (max-width: $breakpoint3) {
             font-size: 28px;
         }
@@ -358,6 +353,7 @@ onMounted(() => {
         position: relative;
         z-index: 2;
         border-bottom: 1px solid $dark-grey;
+
         .header {
             width: 100%;
             display: flex;
@@ -369,6 +365,7 @@ onMounted(() => {
                 display: flex;
                 gap: 54px;
                 align-items: center;
+
                 @media (max-width: $breakpoint1) {
                     gap: 30px;
                 }
@@ -377,17 +374,21 @@ onMounted(() => {
                     color: $black-muted;
                     font-weight: 600;
                     font-size: 25px;
+
                     @media (max-width: $breakpoint1) {
                         font-size: 22px;
                     }
                 }
+
                 .header-nav {
                     display: flex;
                     gap: 21px;
                     font-size: 20px;
+
                     @media (max-width: $breakpoint1) {
                         font-size: 18px;
                     }
+
                     @media (max-width: $breakpoint2) {
                         display: none;
                     }
@@ -400,10 +401,12 @@ onMounted(() => {
                 align-items: center;
                 font-weight: 500;
                 font-size: 20px;
+
                 @media (max-width: $breakpoint1) {
                     gap: 6px;
                     font-size: 18px;
                 }
+
                 @media (max-width: $breakpoint2) {
                     display: none;
                 }
@@ -411,6 +414,7 @@ onMounted(() => {
 
             .header__burger-button {
                 display: none;
+
                 @media (max-width: $breakpoint2) {
                     display: inline-block;
                 }
@@ -420,9 +424,11 @@ onMounted(() => {
 
     .support {
         margin-top: 124px;
+
         @media (max-width: $breakpoint1) {
             margin-top: 68px;
         }
+
         @media (max-width: $breakpoint3) {
             margin-top: 63px;
         }
@@ -432,9 +438,11 @@ onMounted(() => {
                 margin-top: 20px;
                 text-align: center;
                 font-size: 22px;
+
                 @media (max-width: $breakpoint1) {
                     font-size: 20px;
                 }
+
                 @media (max-width: $breakpoint3) {
                     font-size: 18px;
                 }
@@ -443,9 +451,11 @@ onMounted(() => {
 
         .support-details-button {
             margin: 54px auto 0 auto;
+
             @media (max-width: $breakpoint1) {
                 margin-top: 40px;
             }
+
             @media (max-width: $breakpoint3) {
                 margin-top: 30px;
             }
@@ -455,9 +465,11 @@ onMounted(() => {
             margin-top: 23px;
             position: relative;
             z-index: 1;
+
             @media (max-width: $breakpoint1) {
                 margin-top: 0;
             }
+
             @media (max-width: $breakpoint2) {
                 display: flex;
                 justify-content: center;
@@ -467,6 +479,7 @@ onMounted(() => {
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
+
                 @media (max-width: $breakpoint2) {
                     width: 180%;
                     transform: translateX(3%);
@@ -483,12 +496,14 @@ onMounted(() => {
         position: relative;
         z-index: 2;
         margin-top: 127px;
+
         @media (max-width: $breakpoint1) {
             margin-top: 65px;
         }
 
         .about-title {
             margin-bottom: 50px;
+
             @media (max-width: $breakpoint1) {
                 margin-bottom: 30px;
             }
@@ -510,32 +525,40 @@ onMounted(() => {
                 background: $grey;
                 border-radius: 32px;
                 overflow: hidden;
+
                 img {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
                 }
             }
+
             .about-content__list {
                 display: flex;
                 flex-direction: column;
                 gap: 70px;
+
                 @media (max-width: $breakpoint2) {
                     gap: 39px;
                 }
+
                 .about-content__list-item {
                     display: flex;
                     align-items: center;
                     gap: 19px;
+
                     @media (max-width: $breakpoint2) {
                         flex-direction: column;
                     }
+
                     &:nth-child(2) {
                         align-items: flex-start;
+
                         @media (max-width: $breakpoint2) {
                             align-items: center;
                         }
                     }
+
                     .about-list-item-num {
                         display: inline-block;
                         padding: 23px 34px;
@@ -543,12 +566,15 @@ onMounted(() => {
                         border-radius: 20px;
                         background: $light-grey;
                     }
+
                     .about-list-item-text {
                         font-size: 22px;
                         line-height: 1.5;
+
                         @media (max-width: $breakpoint1) {
                             font-size: 18px;
                         }
+
                         @media (max-width: $breakpoint2) {
                             text-align: center;
                         }
@@ -560,16 +586,20 @@ onMounted(() => {
 
     .services {
         margin-top: 110px;
+
         @media (max-width: $breakpoint1) {
             margin-top: 65px;
         }
+
         .services__image {
             margin-top: 50px;
             text-align: center;
             position: relative;
+
             @media (max-width: $breakpoint1) {
                 margin-top: 30px;
             }
+
             @media (max-width: $breakpoint2) {
                 display: flex;
                 justify-content: center;
@@ -578,11 +608,14 @@ onMounted(() => {
             .services-image-gradient {
                 @include white-gradient(100%, 36%, 18%);
             }
+
             img {
                 width: calc(100% - 190px);
+
                 @media (max-width: $breakpoint1) {
                     width: 100%;
                 }
+
                 @media (max-width: $breakpoint2) {
                     width: 180%;
                 }
@@ -597,6 +630,7 @@ onMounted(() => {
             justify-content: space-evenly;
             flex-wrap: wrap;
             gap: 97px 40px;
+
             @media (max-width: $breakpoint1) {
                 margin-top: 36px;
                 gap: 75px 40px;
@@ -627,17 +661,20 @@ onMounted(() => {
                     color: $white;
                     font-size: 28px;
                     transform: translateY(-60%);
+
                     @media (max-width: $breakpoint1) {
                         font-size: 25px;
                         padding: 20px 28px;
                     }
                 }
+
                 .services-card-description {
                     font-size: 22px;
                     text-align: center;
                     font-weight: 500;
                     line-height: 1.6;
                     color: $black-muted;
+
                     @media (max-width: $breakpoint1) {
                         font-size: 18px;
                     }
@@ -648,15 +685,19 @@ onMounted(() => {
 
     .prices {
         margin-top: 110px;
+
         @media (max-width: $breakpoint1) {
             margin-top: 65px;
         }
+
         .prices-title {
             margin-bottom: 102px;
+
             @media (max-width: $breakpoint1) {
                 margin-bottom: 60px;
             }
         }
+
         .prices-articles {
             .prices-article {
                 background: $light-grey;
@@ -668,24 +709,29 @@ onMounted(() => {
                 border-radius: 30px;
                 max-width: 380px;
                 height: 100%;
+
                 @media (max-width: $breakpoint1) {
                     gap: 30px;
                     padding: 39px 23px;
                     border-radius: 24px;
                 }
+
                 .prices-article__header {
                     .prices-article__header-title {
                         font-size: 22px;
+
                         @media (max-width: $breakpoint1) {
                             font-size: 20px;
                         }
                     }
                 }
+
                 .prices-article__list {
                     display: flex;
                     flex-direction: column;
                     gap: 38px;
                     flex-grow: 1;
+
                     @media (max-width: $breakpoint1) {
                         gap: 30px;
                     }
@@ -693,9 +739,11 @@ onMounted(() => {
                     .prices-article__list-item {
                         display: flex;
                         gap: 11px;
+
                         .prices-article__list-item-icon {
                             svg {
                                 width: 30px;
+
                                 @media (max-width: $breakpoint1) {
                                     width: 24px;
                                 }
@@ -705,18 +753,22 @@ onMounted(() => {
 
                     .prices-article__list-item-text {
                         font-size: 20px;
+
                         @media (max-width: $breakpoint1) {
                             font-size: 18px;
                         }
                     }
                 }
+
                 .prices-article__price-comment {
                     font-size: 22px;
                     font-weight: 600;
+
                     @media (max-width: $breakpoint1) {
                         font-size: 18px;
                     }
                 }
+
                 .prices-article__download-button {
                     @include action-button;
                 }
@@ -726,54 +778,68 @@ onMounted(() => {
 
     .contacts {
         margin-top: 110px;
+
         @media (max-width: $breakpoint1) {
             margin-top: 65px;
         }
+
         .contacts-title {
             margin-bottom: 50px;
         }
+
         .contacts__content {
             display: grid;
             grid-template-columns: 0.9fr 1fr;
             gap: 50px;
+
             @media (max-width: $breakpoint1) {
                 gap: 30px;
             }
+
             @media (max-width: $breakpoint2) {
                 grid-template-columns: 1fr;
             }
+
             .contacts__list {
                 display: flex;
                 flex-direction: column;
                 padding: 125px 0;
                 gap: 70px;
+
                 @media (max-width: $breakpoint1) {
                     padding: 60px 0;
                     gap: 45px;
                 }
+
                 @media (max-width: $breakpoint1) {
                     padding: 0;
                 }
+
                 .contacts__list-item {
                     display: flex;
                     align-items: center;
                     gap: 20px;
+
                     a,
                     p {
                         font-size: 22px;
                         text-align: center;
                     }
+
                     @media (max-width: $breakpoint2) {
                         flex-direction: column;
                     }
                 }
             }
+
             .contacts__map {
                 border-radius: 32px;
                 overflow: hidden;
+
                 @media (max-width: $breakpoint2) {
                     display: none;
                 }
+
                 .contacts__map-item {
                     width: 100%;
                     height: 100%;
@@ -784,18 +850,23 @@ onMounted(() => {
 
     .documents {
         margin-top: 110px;
+
         @media (max-width: $breakpoint1) {
             margin-top: 65px;
         }
+
         @media (max-width: $breakpoint2) {
             max-width: none;
         }
+
         .documents-title {
             margin-bottom: 40px;
         }
+
         .documents__cards {
             margin: 0 auto;
             width: fit-content;
+
             @media (max-width: $breakpoint1) {
                 margin-top: 65px;
                 width: auto;
@@ -810,6 +881,7 @@ onMounted(() => {
                 gap: 22px;
                 background: $light-grey;
                 border-radius: 30px;
+
                 @media (max-width: $breakpoint2) {
                     padding: 15px 30px 47px 30px;
                     border-radius: 24px;
@@ -820,6 +892,7 @@ onMounted(() => {
                     line-height: 2;
                     font-size: 20px;
                 }
+
                 .documents__details-button {
                     @include action-button;
                 }
@@ -835,28 +908,34 @@ onMounted(() => {
         @media (max-width: $breakpoint1) {
             margin-top: 142px;
         }
+
         @media (max-width: $breakpoint2) {
             margin-top: 65px;
         }
 
         .footer-content {
             padding: 35px 40px;
+
             @media (max-width: $breakpoint1) {
                 padding-top: 31px;
                 padding-bottom: 22px;
             }
+
             @media (max-width: $breakpoint2) {
                 padding-left: 12px;
                 padding-right: 12px;
             }
+
             .footer__logo {
                 text-align: center;
                 font-size: 25px;
                 font-weight: 600;
+
                 @media (max-width: $breakpoint1) {
                     font-size: 22px;
                 }
             }
+
             .footer__navbar {
                 display: flex;
                 gap: 59px;
@@ -864,15 +943,18 @@ onMounted(() => {
                 font-size: 20px;
                 width: fit-content;
                 text-align: center;
+
                 @media (max-width: $breakpoint1) {
                     font-size: 16px;
                     gap: 20px;
                 }
+
                 @media (max-width: $breakpoint3) {
                     margin-top: 24px;
                     flex-direction: column;
                 }
             }
+
             .footer-address {
                 margin-top: 120px;
                 font-size: 20px;
@@ -884,6 +966,7 @@ onMounted(() => {
                     margin-top: 111px;
                     font-size: 18px;
                 }
+
                 .footer-address__company {
                     @media (max-width: $breakpoint2) {
                         width: fit-content;
@@ -896,6 +979,7 @@ onMounted(() => {
                     gap: 10px;
                     align-items: center;
                     font-weight: 500;
+
                     @media (max-width: $breakpoint2) {
                         display: none;
                     }
