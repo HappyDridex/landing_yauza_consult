@@ -3,16 +3,16 @@
         <header class="header-wrapper">
             <div class="header container">
                 <div class="header-left">
-                    <div class="header-logo">Логотип</div>
+                    <div class="header-logo">ЯузаКонсалт</div>
                     <nav class="header-nav">
                         <a href="#about"
-                            class="footer__navbar-link">О компании</a>
+                            class="header__navbar-link">О компании</a>
                         <a href="#services"
-                            class="footer__navbar-link">Наши услуги</a>
+                            class="header__navbar-link">Наши услуги</a>
                         <a href="#prices"
-                            class="footer__navbar-link">Цены</a>
+                            class="header__navbar-link">Цены</a>
                         <a href="#contacts"
-                            class="footer__navbar-link">Контакты</a>
+                            class="header__navbar-link">Контакты</a>
                     </nav>
                 </div>
                 <div class="header-phone">
@@ -35,17 +35,17 @@
         <section class="support container">
             <div class="support-info">
                 <h1 class="support-title index-section-title">
-                    Сопровождение бизнес процессор
+                    Сопровождение бизнес процессов
                 </h1>
                 <p class="support-description">
                     Предоставляем широкий спектр услуг: бухгалтерское, кадровое
-                    и юридическое<br />сопровождение, а также услуги в области
+                    и юридическое сопровождение, а также услуги в области
                     охраны труда
                 </p>
             </div>
-            <UiButtonMain @click="about.scrollIntoView()"
-                class="support-details-button"
-                :button-text="'Подробнее'" />
+            <UiButtonMain class="support-details-button"
+                :button-text="'Подробнее'"
+                @click="about.scrollIntoView()" />
             <div class="support-illustration">
                 <img src="/images/coins-in-safe.png" />
                 <div class="support-image-white-gradient"></div>
@@ -134,10 +134,13 @@
                             </li>
                         </ul>
                         <p class="prices-article__price-comment">
-                            {{ priceItem.price }}
+                            <strong>
+                                {{ priceItem.price }}
+                            </strong>
                         </p>
-                        <button class="prices-article__download-button">
-                            Скачать еще
+                        <button class="prices-article__download-button"
+                            @click="onDocumentClick(priceItem.link)">
+                            Посмотреть ещё
                         </button>
                     </article>
                 </swiper-slide>
@@ -146,6 +149,7 @@
 
         <section class="contacts container"
             id="contacts">
+
             <h2 class="contacts-title index-section-title">Контакты</h2>
             <address class="contacts__content">
                 <ul class="contacts__list">
@@ -178,16 +182,19 @@
                 </ul>
                 <div class="contacts__map">
                     <div id="map"
+                        @focus.once.capture="preventYMapsScroll"
                         class="contacts__map-item"></div>
                 </div>
             </address>
         </section>
 
         <section class="documents container">
+
             <h2 class="documents-title index-section-title">Документы</h2>
             <swiper class="documents__cards"
-                :slides-per-view="'auto'"
+                :slides-per-view="windowWidth < 768 ? 1 : 'auto'"
                 :space-between="33">
+                <UiSwiperButtons class="documents__swiper-buttons" />
                 <swiper-slide style="width: fit-content; height: auto"
                     v-for="(card, idx) in documentCards"
                     :key="idx">
@@ -196,7 +203,8 @@
                         <p class="documents__card-text">
                             {{ card.text }}
                         </p>
-                        <button class="documents__details-button">
+                        <button class="documents__details-button"
+                            @click="onDocumentClick(card.link)">
                             Смотреть
                         </button>
                     </article>
@@ -205,8 +213,9 @@
         </section>
 
         <footer class="footer">
+
             <div class="footer-content container">
-                <div class="footer__logo">Логотип</div>
+                <div class="footer__logo">ЯузаКонсалт</div>
                 <nav class="footer__navbar">
                     <a href="#about"
                         class="footer__navbar-link">О компании</a>
@@ -237,15 +246,15 @@ import "swiper/css";
 
 const showSidebar = ref(false);
 
+const about = ref(null);
+
 const servicesList = [
     "Бухгалтерские услуги",
     "Кадровые услуги",
     "Юридические услуги",
     "Аудиторские услуги",
-    "Услуги в обоасти охраны труда",
+    "Услуги в области охраны труда",
 ];
-
-const about = ref(null);
 
 const pricesList = [
     {
@@ -257,6 +266,7 @@ const pricesList = [
             "Оформление кассовых операций и контроль за дисциплиной",
         ],
         price: "Цена договорная",
+        link: "/pdf/Бухгалтерские услуги.pdf"
     },
     {
         title: "Юридические услуги",
@@ -267,6 +277,7 @@ const pricesList = [
             "Правовая экспертиза корпоративных документов",
         ],
         price: "от 44 000₽",
+        link: "/pdf/Юридические услуги.pdf"
     },
     {
         title: "Кадровые услуги",
@@ -277,6 +288,7 @@ const pricesList = [
             "Разработка формы трудового договора",
         ],
         price: "Цена договорная",
+        link: "/pdf/Кадровые услуги.pdf"
     },
     {
         title: "Аудиторские услуги",
@@ -287,6 +299,7 @@ const pricesList = [
             "Подготовка учетной политики",
         ],
         price: "Цена договорная",
+        link: "/pdf/Аудиторские услуги.pdf"
     },
     {
         title: "Охрана труда",
@@ -297,21 +310,30 @@ const pricesList = [
             "Представитель защитит ваши интересы при проверке ГИТ",
         ],
         price: "Цена договорная",
+        link: "/pdf/Охрана труда.pdf"
     },
 ];
 
 const documentCards = [
     {
-        text: "Об утверждении Положения о системе хранения и архивирования документов, оформляемых при осуществлении функции службы охраны труда, специалистов охраны труда организаций, которым оказываются услуги в области охраны труда по гражданско - правовым договорам",
-        link: "",
+        text: "Об утверждении Положения о системе хранения и архивирования документов, оформляемых при осуществлении функции службы охраны труда, специалистов охраны труда организаций, которым оказываются услуги в области охраны труда по гражданско-правовым договорам",
+        link: "/pdf/Приказ №1 от 21.08.2023.pdf",
     },
     {
         text: "Положение о системе хранения и архивирования документов, оформляемых при осуществлении функций службы охраны труда, специалистов охраны труда организаций, которым оказываются услуги в области охраны труда по гражданско-правовым договорам",
-        link: "",
+        link: "/pdf/Положение_о_системе_хранения_и_архивирования_документов.pdf",
     },
 ];
 
+function onDocumentClick(link) {
+    window.open(link);
+}
+function preventYMapsScroll() {
+    window.scrollTo({ top: 0 });
+}
+
 onMounted(() => {
+
     ymaps.ready(init);
 
     function init() {
@@ -342,6 +364,7 @@ onMounted(() => {
 const windowWidth = computed(() => {
     return window.innerWidth;
 });
+
 </script>
 
 <style lang="scss">
@@ -374,6 +397,7 @@ const windowWidth = computed(() => {
             justify-content: space-between;
             align-items: center;
             padding: 37px 20px;
+            gap: 30px;
 
             .header-left {
                 display: flex;
@@ -405,6 +429,10 @@ const windowWidth = computed(() => {
 
                     @media (max-width: $breakpoint2) {
                         display: none;
+                    }
+
+                    .header__navbar-link {
+                        text-align: center;
                     }
                 }
             }
@@ -448,17 +476,25 @@ const windowWidth = computed(() => {
         }
 
         .support-info {
+            .support-title {
+                font-weight: 800;
+            }
+
             .support-description {
                 margin-top: 20px;
                 text-align: center;
                 font-size: 22px;
+                line-height: 1.6;
+                padding: 0 8%;
 
                 @media (max-width: $breakpoint1) {
                     font-size: 20px;
                 }
 
                 @media (max-width: $breakpoint3) {
+                    padding: 0 10px;
                     font-size: 18px;
+
                 }
             }
         }
@@ -479,6 +515,7 @@ const windowWidth = computed(() => {
             margin-top: 23px;
             position: relative;
             z-index: 1;
+            overflow: hidden;
 
             @media (max-width: $breakpoint1) {
                 margin-top: 0;
@@ -495,8 +532,8 @@ const windowWidth = computed(() => {
                 object-fit: contain;
 
                 @media (max-width: $breakpoint2) {
-                    width: 180%;
-                    transform: translateX(3%);
+                    width: 183%;
+                    transform: translateX(2%);
                 }
             }
 
@@ -605,10 +642,15 @@ const windowWidth = computed(() => {
             margin-top: 65px;
         }
 
+        @media (max-width: $breakpoint3) {
+            padding: 0;
+        }
+
         .services__image {
             margin-top: 50px;
             text-align: center;
             position: relative;
+            overflow: hidden;
 
             @media (max-width: $breakpoint1) {
                 margin-top: 30px;
@@ -621,6 +663,7 @@ const windowWidth = computed(() => {
 
             .services-image-gradient {
                 @include white-gradient(100%, 36%, 18%);
+
             }
 
             img {
@@ -648,6 +691,10 @@ const windowWidth = computed(() => {
             @media (max-width: $breakpoint1) {
                 margin-top: 36px;
                 gap: 75px 40px;
+            }
+
+            @media (max-width: $breakpoint1) {
+                margin-top: 50px;
             }
 
             .services-card {
@@ -704,318 +751,366 @@ const windowWidth = computed(() => {
             margin-top: 65px;
         }
 
+        @media (max-width: $breakpoint3) {
+            padding: 0;
+        }
+
+
         .prices-title {
             margin-bottom: 102px;
 
-            @media (max-width: $breakpoint1) {
-                margin-bottom: 60px;
+            @media (max-width: $breakpoint2) {
+                width: 360px;
             }
-        }
 
-        .prices-articles {
-            .prices-article {
-                background: $light-grey;
-                color: $black-muted;
-                display: flex;
-                flex-direction: column;
-                gap: 49px;
-                padding: 49px 29px 55px 29px;
-                border-radius: 30px;
-                max-width: 380px;
-                height: 100%;
+            @media (max-width: $breakpoint3) {
+                width: 308px;
+            }
+
+            .prices__swiper-buttons {
+                align-self: flex-end;
+                margin: 30px 0 14px 0;
 
                 @media (max-width: $breakpoint1) {
-                    gap: 30px;
-                    padding: 39px 23px;
-                    border-radius: 24px;
+                    width: fit-content;
+                    margin: 30px auto 30px auto;
                 }
 
-                .prices-article__header {
-                    .prices-article__header-title {
-                        font-size: 22px;
+            }
 
-                        @media (max-width: $breakpoint1) {
-                            font-size: 20px;
-                        }
-                    }
-                }
-
-                .prices-article__list {
+            .prices-articles {
+                .prices-article {
+                    background: $light-grey;
+                    color: $black-muted;
                     display: flex;
                     flex-direction: column;
-                    gap: 38px;
-                    flex-grow: 1;
+                    gap: 49px;
+                    padding: 49px 29px 55px 29px;
+                    border-radius: 30px;
+                    max-width: 380px;
+                    height: 100%;
+                    width: 360px;
 
                     @media (max-width: $breakpoint1) {
                         gap: 30px;
+                        padding: 39px 23px;
+                        border-radius: 24px;
                     }
 
-                    .prices-article__list-item {
-                        display: flex;
-                        gap: 11px;
+                    @media (max-width: $breakpoint3) {
+                        max-width: 308px;
+                    }
 
-                        .prices-article__list-item-icon {
-                            svg {
-                                width: 30px;
+                    .prices-article__header {
+                        .prices-article__header-title {
+                            font-size: 22px;
 
-                                @media (max-width: $breakpoint1) {
-                                    width: 24px;
-                                }
+                            @media (max-width: $breakpoint1) {
+                                font-size: 20px;
                             }
                         }
                     }
 
-                    .prices-article__list-item-text {
-                        font-size: 20px;
+                    .prices-article__list {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 38px;
+                        flex-grow: 1;
+
+                        @media (max-width: $breakpoint1) {
+                            gap: 30px;
+                        }
+
+                        .prices-article__list-item {
+                            display: flex;
+                            gap: 11px;
+
+                            .prices-article__list-item-icon {
+                                svg {
+                                    width: 30px;
+
+                                    @media (max-width: $breakpoint1) {
+                                        width: 24px;
+                                    }
+                                }
+                            }
+                        }
+
+                        .prices-article__list-item-text {
+                            font-size: 20px;
+
+                            @media (max-width: $breakpoint1) {
+                                font-size: 18px;
+                            }
+                        }
+                    }
+
+                    .prices-article__price-comment {
+                        font-size: 22px;
+                        font-weight: 600;
 
                         @media (max-width: $breakpoint1) {
                             font-size: 18px;
                         }
                     }
+
+                    .prices-article__download-button {
+                        @include action-button;
+                    }
+                }
+            }
+        }
+
+        .contacts {
+            margin-top: 110px;
+
+            @media (max-width: $breakpoint1) {
+                margin-top: 65px;
+            }
+
+            .contacts-title {
+                margin-bottom: 50px;
+            }
+
+            .contacts__content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 50px;
+
+                @media (max-width: $breakpoint1) {
+                    gap: 30px;
                 }
 
-                .prices-article__price-comment {
-                    font-size: 22px;
-                    font-weight: 600;
+                @media (max-width: $breakpoint2) {
+                    grid-template-columns: 1fr;
+                }
+
+                .contacts__list {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 125px 0;
+                    gap: 70px;
 
                     @media (max-width: $breakpoint1) {
-                        font-size: 18px;
+                        padding: 60px 0;
+                        gap: 45px;
+                    }
+
+                    @media (max-width: $breakpoint1) {
+                        padding: 0;
+                    }
+
+                    .contacts__list-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+
+                        @media (max-width: $breakpoint2) {
+                            align-items: center;
+                            flex-direction: column;
+                        }
+
+                        a,
+                        p {
+                            font-size: 22px;
+                            width: fit-content;
+
+                            @media (max-width: $breakpoint2) {
+                                text-align: center;
+                                font-size: 18px;
+                            }
+                        }
                     }
                 }
 
-                .prices-article__download-button {
-                    @include action-button;
-                }
-            }
-        }
-    }
-
-    .contacts {
-        margin-top: 110px;
-
-        @media (max-width: $breakpoint1) {
-            margin-top: 65px;
-        }
-
-        .contacts-title {
-            margin-bottom: 50px;
-        }
-
-        .contacts__content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-
-            @media (max-width: $breakpoint1) {
-                gap: 30px;
-            }
-
-            @media (max-width: $breakpoint2) {
-                grid-template-columns: 1fr;
-            }
-
-            .contacts__list {
-                display: flex;
-                flex-direction: column;
-                padding: 125px 0;
-                gap: 70px;
-
-                @media (max-width: $breakpoint1) {
-                    padding: 60px 0;
-                    gap: 45px;
-                }
-
-                @media (max-width: $breakpoint1) {
-                    padding: 0;
-                }
-
-                .contacts__list-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 20px;
-
-                    a,
-                    p {
-                        font-size: 22px;
-                        text-align: center;
-                    }
-
-                    @media (max-width: $breakpoint2) {
-                        flex-direction: column;
-                    }
-                }
-            }
-
-            .contacts__map {
-                border-radius: 32px;
-                overflow: hidden;
-
-                @media (max-width: $breakpoint2) {
-                    display: none;
-                }
-
-                .contacts__map-item {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-    }
-
-    .documents {
-        margin-top: 110px;
-
-        @media (max-width: $breakpoint1) {
-            margin-top: 65px;
-        }
-
-        @media (max-width: $breakpoint2) {
-            max-width: none;
-        }
-
-        .documents-title {
-            margin-bottom: 30px;
-        }
-
-        .documents__cards {
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column-reverse;
-            width: fit-content;
-
-            @media (max-width: $breakpoint1) {
-                width: auto;
-            }
-
-            @media (max-width: $breakpoint2) {
-                width: 367px;
-            }
-
-            .documents__swiper-buttons {
-                display: none;
-                align-self: flex-end;
-                margin-bottom: 14px;
-
-                @media (max-width: $breakpoint1) {
-                    display: flex;
-                    margin-bottom: 30px;
-                    align-self: center;
-                }
-            }
-
-            .documents__card {
-                max-width: 380px;
-                padding: 23px 25px 40px 25px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 22px;
-                background: $light-grey;
-                border-radius: 30px;
-
-                @media (max-width: $breakpoint2) {
-                    padding: 15px 30px 47px 30px;
-                    border-radius: 24px;
-                }
-
-                .documents__card-text {
-                    text-align: center;
-                    line-height: 2;
-                    font-size: 20px;
-                }
-
-                .documents__details-button {
-                    @include action-button;
-                }
-            }
-        }
-    }
-
-    .footer {
-        margin-top: 239px;
-        background: $light-grey;
-        color: $black-muted;
-
-        @media (max-width: $breakpoint1) {
-            margin-top: 142px;
-        }
-
-        @media (max-width: $breakpoint2) {
-            margin-top: 65px;
-        }
-
-        .footer-content {
-            padding: 35px 40px;
-
-            @media (max-width: $breakpoint1) {
-                padding-top: 31px;
-                padding-bottom: 22px;
-            }
-
-            @media (max-width: $breakpoint2) {
-                padding-left: 12px;
-                padding-right: 12px;
-            }
-
-            .footer__logo {
-                text-align: center;
-                font-size: 25px;
-                font-weight: 600;
-
-                @media (max-width: $breakpoint1) {
-                    font-size: 22px;
-                }
-            }
-
-            .footer__navbar {
-                display: flex;
-                gap: 59px;
-                margin: 54px auto 0 auto;
-                font-size: 20px;
-                width: fit-content;
-                text-align: center;
-
-                @media (max-width: $breakpoint1) {
-                    font-size: 16px;
-                    gap: 20px;
-                }
-
-                @media (max-width: $breakpoint3) {
-                    margin-top: 24px;
-                    flex-direction: column;
-                }
-            }
-
-            .footer-address {
-                margin-top: 120px;
-                font-size: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-
-                @media (max-width: $breakpoint1) {
-                    margin-top: 111px;
-                    font-size: 18px;
-                }
-
-                .footer-address__company {
-                    @media (max-width: $breakpoint2) {
-                        width: fit-content;
-                        margin: 0 auto;
-                    }
-                }
-
-                .footer-address__phone {
-                    display: flex;
-                    gap: 10px;
-                    align-items: center;
-                    font-weight: 500;
+                .contacts__map {
+                    border-radius: 32px;
+                    overflow: hidden;
 
                     @media (max-width: $breakpoint2) {
                         display: none;
                     }
+
+                    .contacts__map-item {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+
+        .documents {
+            margin-top: 110px;
+
+            @media (max-width: $breakpoint1) {
+                margin-top: 65px;
+            }
+
+            @media (max-width: $breakpoint2) {
+                max-width: none;
+            }
+
+            .documents-title {
+                margin-bottom: 30px;
+            }
+
+            .documents__cards {
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column-reverse;
+                width: fit-content;
+
+                @media (max-width: $breakpoint1) {
+                    width: auto;
+                }
+
+                @media (max-width: $breakpoint2) {
+                    width: 380px;
+                }
+
+                @media (max-width: $breakpoint3) {
+                    width: 308px;
+                }
+
+                .documents__swiper-buttons {
+                    display: none;
+                    align-self: flex-end;
+                    margin-bottom: 14px;
+
+                    @media (max-width: $breakpoint1) {
+                        display: flex;
+                        margin-bottom: 30px;
+                        align-self: center;
+                    }
+                }
+
+                .documents__card {
+                    width: 380px;
+                    height: 100%;
+                    padding: 23px 25px 40px 25px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 22px;
+                    background: $light-grey;
+                    border-radius: 30px;
+
+                    @media (max-width: $breakpoint2) {
+                        padding: 15px 15px 47px 15px;
+                        border-radius: 24px;
+                    }
+
+                    @media (max-width: $breakpoint3) {
+                        padding-bottom: 40px;
+                        width: 308px;
+                    }
+
+                    .documents__card-text {
+                        text-align: center;
+                        line-height: 2;
+                        font-size: 20px;
+                        flex: 1
+                    }
+
+                    .documents__details-button {
+                        @include action-button;
+                    }
+                }
+            }
+        }
+
+        .footer {
+            margin-top: 239px;
+            background: $light-grey;
+            color: $black-muted;
+
+            @media (max-width: $breakpoint1) {
+                margin-top: 142px;
+            }
+
+            @media (max-width: $breakpoint2) {
+                margin-top: 65px;
+            }
+
+            .footer-content {
+                padding: 35px 40px;
+
+                @media (max-width: $breakpoint1) {
+                    padding-top: 31px;
+                    padding-bottom: 22px;
+                }
+
+                @media (max-width: $breakpoint2) {
+                    padding-left: 12px;
+                    padding-right: 12px;
+                }
+
+                .footer__logo {
+                    text-align: center;
+                    font-size: 25px;
+                    font-weight: 600;
+
+                    @media (max-width: $breakpoint1) {
+                        font-size: 22px;
+                    }
+                }
+
+                .footer__navbar {
+                    display: flex;
+                    gap: 59px;
+                    margin: 54px auto 0 auto;
+                    font-size: 20px;
+                    width: fit-content;
+                    text-align: center;
+
+                    @media (max-width: $breakpoint1) {
+                        font-size: 16px;
+                        gap: 20px;
+                    }
+
+                    @media (max-width: $breakpoint3) {
+                        margin-top: 24px;
+                        flex-direction: column;
+                    }
+                }
+
+                .footer-address {
+                    margin-top: 120px;
+                    font-size: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    @media (max-width: $breakpoint1) {
+                        margin-top: 111px;
+                        font-size: 18px;
+                    }
+
+                    @media (max-width: $breakpoint3) {
+                        margin-top: 62px;
+
+                    }
+
+                    .footer-address__company {
+                        @media (max-width: $breakpoint2) {
+                            width: fit-content;
+                            margin: 0 auto;
+                        }
+                    }
+
+                    .footer-address__phone {
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+                        font-weight: 500;
+
+                        @media (max-width: $breakpoint2) {
+                            display: none;
+                        }
+                    }
                 }
             }
         }
     }
-}</style>
+}
+</style>
