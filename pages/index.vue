@@ -602,6 +602,16 @@ const windowWidth = computed(() => {
                         flex-direction: column;
                     }
 
+                    p {
+                        margin-left: 19px;
+
+                        @media (max-width: $breakpoint2) {
+                            margin-left: 0;
+                            margin-top: 19px;
+                        }
+
+                    }
+
                     &:nth-child(2) {
                         align-items: flex-start;
 
