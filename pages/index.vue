@@ -241,6 +241,7 @@
 </template>
 
 <script setup>
+
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 
@@ -325,11 +326,18 @@ const documentCards = [
     },
 ];
 
+const windowWidth = ref(0);
+
 function onDocumentClick(link) {
     window.open(link);
 }
+
 function preventYMapsScroll() {
     window.scrollTo({ top: 0 });
+}
+
+function handleWindowWidth() {
+    windowWidth.value = window.innerWidth;
 }
 
 onMounted(() => {
@@ -359,15 +367,22 @@ onMounted(() => {
             types: { masstransit: true, pedestrian: true, taxi: true },
         });
     }
+
+    windowWidth.value = window.innerWidth;
+    window.addEventListener("resize", handleWindowWidth);
+
 });
 
-const windowWidth = computed(() => {
-    return window.innerWidth;
-});
+
+
 
 </script>
 
 <style lang="scss">
+.b {
+    border: 3px red solid;
+}
+
 .index-wrapper {
     .index-section-title {
         font-size: 40px;
@@ -776,97 +791,98 @@ const windowWidth = computed(() => {
             @media (max-width: $breakpoint3) {
                 width: 308px;
             }
+        }
 
-            .prices__swiper-buttons {
-                align-self: flex-end;
-                margin: 30px 0 14px 0;
+        .prices__swiper-buttons {
+            width: fit-content;
+            align-self: flex-end;
+            margin: 30px 0 14px auto;
+
+            @media (max-width: $breakpoint1) {
+                width: fit-content;
+                margin: 30px auto 30px auto;
+            }
+        }
+
+        .prices-articles {
+
+            .prices-article {
+                background: $light-grey;
+                color: $black-muted;
+                display: flex;
+                flex-direction: column;
+                gap: 49px;
+                padding: 49px 29px 55px 29px;
+                border-radius: 30px;
+                max-width: 380px;
+                height: 100%;
+                width: 360px;
 
                 @media (max-width: $breakpoint1) {
-                    width: fit-content;
-                    margin: 30px auto 30px auto;
+                    gap: 30px;
+                    padding: 39px 23px;
+                    border-radius: 24px;
                 }
 
-            }
+                @media (max-width: $breakpoint3) {
+                    max-width: 308px;
+                }
 
-            .prices-articles {
-                .prices-article {
-                    background: $light-grey;
-                    color: $black-muted;
+                .prices-article__header {
+                    .prices-article__header-title {
+                        font-size: 22px;
+
+                        @media (max-width: $breakpoint1) {
+                            font-size: 20px;
+                        }
+                    }
+                }
+
+                .prices-article__list {
                     display: flex;
                     flex-direction: column;
-                    gap: 49px;
-                    padding: 49px 29px 55px 29px;
-                    border-radius: 30px;
-                    max-width: 380px;
-                    height: 100%;
-                    width: 360px;
+                    gap: 38px;
+                    flex-grow: 1;
 
                     @media (max-width: $breakpoint1) {
                         gap: 30px;
-                        padding: 39px 23px;
-                        border-radius: 24px;
                     }
 
-                    @media (max-width: $breakpoint3) {
-                        max-width: 308px;
-                    }
-
-                    .prices-article__header {
-                        .prices-article__header-title {
-                            font-size: 22px;
-
-                            @media (max-width: $breakpoint1) {
-                                font-size: 20px;
-                            }
-                        }
-                    }
-
-                    .prices-article__list {
+                    .prices-article__list-item {
                         display: flex;
-                        flex-direction: column;
-                        gap: 38px;
-                        flex-grow: 1;
+                        gap: 11px;
 
-                        @media (max-width: $breakpoint1) {
-                            gap: 30px;
-                        }
+                        .prices-article__list-item-icon {
+                            svg {
+                                width: 30px;
 
-                        .prices-article__list-item {
-                            display: flex;
-                            gap: 11px;
-
-                            .prices-article__list-item-icon {
-                                svg {
-                                    width: 30px;
-
-                                    @media (max-width: $breakpoint1) {
-                                        width: 24px;
-                                    }
+                                @media (max-width: $breakpoint1) {
+                                    width: 24px;
                                 }
                             }
                         }
-
-                        .prices-article__list-item-text {
-                            font-size: 20px;
-
-                            @media (max-width: $breakpoint1) {
-                                font-size: 18px;
-                            }
-                        }
                     }
 
-                    .prices-article__price-comment {
-                        font-size: 22px;
-                        font-weight: 600;
+                    .prices-article__list-item-text {
+                        font-size: 20px;
 
                         @media (max-width: $breakpoint1) {
                             font-size: 18px;
                         }
                     }
+                }
 
-                    .prices-article__download-button {
-                        @include action-button;
+                .prices-article__price-comment {
+                    font-size: 22px;
+                    font-weight: 600;
+
+                    @media (max-width: $breakpoint1) {
+                        font-size: 18px;
                     }
+                }
+
+                .prices-article__download-button {
+                    @include action-button;
                 }
             }
         }
@@ -1117,6 +1133,257 @@ const windowWidth = computed(() => {
                         @media (max-width: $breakpoint2) {
                             display: none;
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    .contacts {
+        margin-top: 110px;
+
+        @media (max-width: $breakpoint1) {
+            margin-top: 65px;
+        }
+
+        .contacts-title {
+            margin-bottom: 50px;
+        }
+
+        .contacts__content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+
+            @media (max-width: $breakpoint1) {
+                gap: 30px;
+            }
+
+            @media (max-width: $breakpoint2) {
+                grid-template-columns: 1fr;
+            }
+
+            .contacts__list {
+                display: flex;
+                flex-direction: column;
+                padding: 125px 0;
+                gap: 70px;
+
+                @media (max-width: $breakpoint1) {
+                    padding: 60px 0;
+                    gap: 45px;
+                }
+
+                @media (max-width: $breakpoint1) {
+                    padding: 0;
+                }
+
+                .contacts__list-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+
+                    @media (max-width: $breakpoint2) {
+                        align-items: center;
+                        flex-direction: column;
+                    }
+
+                    a,
+                    p {
+                        font-size: 22px;
+                        width: fit-content;
+
+                        @media (max-width: $breakpoint2) {
+                            text-align: center;
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+
+            .contacts__map {
+                border-radius: 32px;
+                overflow: hidden;
+
+                @media (max-width: $breakpoint2) {
+                    display: none;
+                }
+
+                .contacts__map-item {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+
+    .documents {
+        margin-top: 110px;
+
+        @media (max-width: $breakpoint1) {
+            margin-top: 65px;
+        }
+
+        @media (max-width: $breakpoint2) {
+            max-width: none;
+        }
+
+        .documents-title {
+            margin-bottom: 30px;
+        }
+
+        .documents__cards {
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column-reverse;
+            width: fit-content;
+
+            @media (max-width: $breakpoint1) {
+                width: auto;
+            }
+
+            @media (max-width: $breakpoint2) {
+                width: 380px;
+            }
+
+            @media (max-width: $breakpoint3) {
+                width: 308px;
+            }
+
+            .documents__swiper-buttons {
+                display: none;
+                align-self: flex-end;
+                margin-bottom: 14px;
+
+                @media (max-width: $breakpoint1) {
+                    display: flex;
+                    margin-bottom: 30px;
+                    align-self: center;
+                }
+            }
+
+            .documents__card {
+                width: 380px;
+                height: 100%;
+                padding: 23px 25px 40px 25px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 22px;
+                background: $light-grey;
+                border-radius: 30px;
+
+                @media (max-width: $breakpoint2) {
+                    padding: 15px 15px 47px 15px;
+                    border-radius: 24px;
+                }
+
+                @media (max-width: $breakpoint3) {
+                    padding-bottom: 40px;
+                    width: 308px;
+                }
+
+                .documents__card-text {
+                    text-align: center;
+                    line-height: 2;
+                    font-size: 20px;
+                    flex: 1
+                }
+
+                .documents__details-button {
+                    @include action-button;
+                }
+            }
+        }
+    }
+
+    .footer {
+        margin-top: 239px;
+        background: $light-grey;
+        color: $black-muted;
+
+        @media (max-width: $breakpoint1) {
+            margin-top: 142px;
+        }
+
+        @media (max-width: $breakpoint2) {
+            margin-top: 65px;
+        }
+
+        .footer-content {
+            padding: 35px 40px;
+
+            @media (max-width: $breakpoint1) {
+                padding-top: 31px;
+                padding-bottom: 22px;
+            }
+
+            @media (max-width: $breakpoint2) {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .footer__logo {
+                text-align: center;
+                font-size: 25px;
+                font-weight: 600;
+
+                @media (max-width: $breakpoint1) {
+                    font-size: 22px;
+                }
+            }
+
+            .footer__navbar {
+                display: flex;
+                gap: 59px;
+                margin: 54px auto 0 auto;
+                font-size: 20px;
+                width: fit-content;
+                text-align: center;
+
+                @media (max-width: $breakpoint1) {
+                    font-size: 16px;
+                    gap: 20px;
+                }
+
+                @media (max-width: $breakpoint3) {
+                    margin-top: 24px;
+                    flex-direction: column;
+                }
+            }
+
+            .footer-address {
+                margin-top: 120px;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                @media (max-width: $breakpoint1) {
+                    margin-top: 111px;
+                    font-size: 18px;
+                }
+
+                @media (max-width: $breakpoint3) {
+                    margin-top: 62px;
+
+                }
+
+                .footer-address__company {
+                    @media (max-width: $breakpoint2) {
+                        width: fit-content;
+                        margin: 0 auto;
+                    }
+                }
+
+                .footer-address__phone {
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    font-weight: 500;
+
+                    @media (max-width: $breakpoint2) {
+                        display: none;
                     }
                 }
             }
